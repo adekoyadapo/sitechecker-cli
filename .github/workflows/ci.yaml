@@ -14,7 +14,20 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    env: 
+      version: vCI
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            extension: ''
+            artifact: linux
+          - os: windows-latest
+            extension: '.exe'
+            artifact: windows
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,3 +53,13 @@ jobs:
           display-options: fEX
           fail-on-empty: true
           title: Check Site Test results
+
+      - name: Build CLI executable
+        run: pyinstaller check_site.py --onefile -n site-checker${{ matrix.extension }}
+
+      - name: Test CLI executable
+        run: |
+          ./dist/site-checker${{ matrix.extension }} --version
+          ./dist/site-checker${{ matrix.extension }} example.com
+        env: 
+          version: ${{ env.version }}
