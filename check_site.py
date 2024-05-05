@@ -1,17 +1,32 @@
+import os
+from dotenv import load_dotenv
 import click
 import requests
 import socket
 import dns.resolver
 
+# Load environment variables from .env file
+load_dotenv()
+
 @click.command()
-@click.argument('url')
-def check_site(url):
+@click.argument('url', required=False)
+@click.option('--version', '-v', is_flag=True, help='Display the version of the tool')
+def check_site(url, version):
     """
     Check the status and DNS information of a website.
 
     Args:
         url (str): The URL of the website to check.
+        version (bool): Flag to display the version of the tool.
     """
+    if version:
+        display_version()
+        return
+
+    if not url:
+        click.echo("Error: Missing argument 'URL'.")
+        return
+
     if not url.startswith("http://") and not url.startswith("https://"):
         url = "http://" + url
 
@@ -40,6 +55,13 @@ def check_site(url):
             click.echo("--\nSite Status - Offline")
     except Exception as e:
         click.echo("An error occurred:", e)
+
+def display_version():
+    """Display the version of the tool."""
+    version = os.getenv('version', 'v0.0.0')
+    os_platform = os.uname().sysname
+    version = version.lstrip('v')  # Remove leading 'v'
+    click.echo(f"Version: {version}\nOS Platform: {os_platform}")
 
 def get_dns_info(url):
     """

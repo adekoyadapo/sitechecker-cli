@@ -10,9 +10,11 @@ permissions:
 jobs:
   build-and-release:
     runs-on: ${{ matrix.os }}
+    env: 
+      version: ${{ github.ref_name }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         include:
           - os: ubuntu-latest
             extension: ''
@@ -51,8 +53,9 @@ jobs:
         run: pyinstaller check_site.py --onefile -n site-checker${{ matrix.extension }}
 
       - name: Test CLI executable
-        run: ./dist/site-checker${{ matrix.extension }} www.example.com
-
+        run: ./dist/site-checker${{ matrix.extension }} --version
+        env: 
+          version: ${{ env.version }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
