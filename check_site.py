@@ -1,12 +1,9 @@
+import platform
 import os
-from dotenv import load_dotenv
 import click
 import requests
 import socket
 import dns.resolver
-
-# Load environment variables from .env file
-load_dotenv()
 
 @click.command()
 @click.argument('url', required=False)
@@ -59,7 +56,7 @@ def check_site(url, version):
 def display_version():
     """Display the version of the tool."""
     version = os.getenv('version', 'v0.0.0')
-    os_platform = os.uname().sysname
+    os_platform = platform.system()
     version = version.lstrip('v')  # Remove leading 'v'
     click.echo(f"Version: {version}\nOS Platform: {os_platform}")
 
