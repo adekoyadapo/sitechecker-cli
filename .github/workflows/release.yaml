@@ -112,5 +112,10 @@ jobs:
           prerelease: false
           draft: false
           files: |
-            site-checker-
+            site-checker-darwin-arm64
+            site-checker-darwin-x64
+            site-checker-windows-arm64
+            site-checker-windows-x64
+            site-checker-linux-x64
+            site-checker-linux-arm64
           generate_release_notes: true
