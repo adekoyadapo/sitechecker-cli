@@ -25,27 +25,21 @@ jobs:
           - os: ubuntu-latest
             architecture: x64
             extension: ''
-            artifact: linux-x64
           - os: ubuntu-latest
             architecture: arm64
             extension: ''
-            artifact: linux-arm64
           - os: windows-latest
             architecture: x64
             extension: '.exe'
-            artifact: windows-x64
           - os: windows-latest
             architecture: arm64
             extension: '.exe'
-            artifact: windows-arm64
           - os: macos-latest
             architecture: x64
             extension: ''
-            artifact: macos-x64
           - os: macos-latest
             architecture: arm64
             extension: ''
-            artifact: macos-arm64
 
     steps:
       - name: Checkout code
@@ -54,7 +48,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: 3.12.3
 
       - name: Install dependencies
         run: |

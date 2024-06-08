@@ -57,7 +57,7 @@ def display_version():
     """Display the version of the tool."""
     version = os.getenv('version', 'v0.0.0')
     os_platform = platform.system()
-    version = version.lstrip('v')  # Remove leading 'v'
+    version = version.lstrip('v')
     click.echo(f"Version: {version}\nOS Platform: {os_platform}")
 
 def get_dns_info(url):
